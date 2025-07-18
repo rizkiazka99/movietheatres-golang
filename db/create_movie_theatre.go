@@ -10,13 +10,14 @@ func CreateMovieTheatre(theatre models.MovieTheatre) {
 	var movieTheatre models.MovieTheatre
 
 	sqlStatement := `
-	INSERT INTO theatres (nama, lokasi, rating)
-	VALUES ($1, $2, $3)
+	INSERT INTO theatres (id, nama, lokasi, rating)
+	VALUES ($1, $2, $3, $4)
 	Returning *
 	`
 
 	config.Err = config.Db.QueryRow(
 		sqlStatement,
+		theatre.ID,
 		theatre.Nama,
 		theatre.Lokasi,
 		theatre.Rating,
