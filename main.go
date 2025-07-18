@@ -6,27 +6,35 @@ import (
 	"movietheatres-go/config"
 	"movietheatres-go/database"
 	"movietheatres-go/router"
+	"os"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 func main() {
 	startServer()
-	// theatre := models.MovieTheatre{
-	// 	ID:     utils.IDGenerator(),
-	// 	Nama:   "Metropole XXI",
-	// 	Lokasi: "Megaria, Komplek, Jl. Pegangsaan Barat No.21, RT.1/RW.1, Pegangsaan, Kec. Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10320",
-	// 	Rating: 4.2,
-	// }
-	// defer db.CreateMovieTheatre(theatre)
-	// connectToDB()
 }
 
 func connectToDB() {
+	// psqlInfo := fmt.Sprintf(
+	// 	"host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",
+	// 	config.Host, config.Port, config.User, config.Password, config.Dbname,
+	// )
+	config.Err = godotenv.Load("config/.env")
+	if config.Err != nil {
+		panic("Error loading .env file")
+	}
+
 	psqlInfo := fmt.Sprintf(
-		"host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",
-		config.Host, config.Port, config.User, config.Password, config.Dbname,
+		"host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable",
+		os.Getenv("PGHOST"),
+		os.Getenv("PGPORT"),
+		os.Getenv("PGUSER"),
+		os.Getenv("PGPASSWORD"),
+		os.Getenv("PGDATABASE"),
 	)
+
 	config.Db, config.Err = sql.Open("postgres", psqlInfo)
 	if config.Err != nil {
 		panic(config.Err)
@@ -43,8 +51,8 @@ func connectToDB() {
 }
 
 func startServer() {
-	var PORT = ":8080"
+	var PORT = os.Getenv("PGPORT")
 
 	connectToDB()
-	router.StartServer().Run(PORT)
+	router.StartServer().Run(":" + PORT)
 }
