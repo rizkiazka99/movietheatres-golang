@@ -34,6 +34,11 @@ func connectToDB() {
 		os.Getenv("PGUSER"),
 		os.Getenv("PGPASSWORD"),
 		os.Getenv("PGDATABASE"),
+		// os.Getenv("DB_HOST"),
+		// os.Getenv("DB_PORT"),
+		// os.Getenv("DB_USER"),
+		// os.Getenv("DB_PASSWORD"),
+		// os.Getenv("DB_NAME"),
 	)
 
 	config.Db, config.Err = sql.Open("postgres", psqlInfo)
@@ -52,7 +57,8 @@ func connectToDB() {
 }
 
 func startServer() {
-	var PORT = os.Getenv("PGPORT")
+	// var PORT = os.Getenv("PGPORT")
+	var PORT = "8080"
 
 	connectToDB()
 	router.StartServer().Run(":" + PORT)
