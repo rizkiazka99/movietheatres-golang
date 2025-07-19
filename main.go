@@ -57,8 +57,8 @@ func connectToDB() {
 }
 
 func startServer() {
-	// var PORT = os.Getenv("PGPORT")
-	var PORT = "8080"
+	var PORT = os.Getenv("PGPORT")
+	// var PORT = "8080"
 
 	connectToDB()
 	router.StartServer().Run(":" + PORT)
