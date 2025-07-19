@@ -57,7 +57,7 @@ func connectToDB() {
 }
 
 func startServer() {
-	var PORT = os.Getenv("PGPORT")
+	var PORT = os.Getenv("PORT")
 	// var PORT = "8080"
 
 	connectToDB()
