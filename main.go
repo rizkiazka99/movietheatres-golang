@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"movietheatres-go/config"
-	"movietheatres-go/database"
+
+	// "movietheatres-go/database"
 	"movietheatres-go/router"
 	"os"
 
@@ -45,7 +46,7 @@ func connectToDB() {
 	if config.Err != nil {
 		panic(config.Err)
 	}
-	database.DBMigrate(config.Db)
+	// database.DBMigrate(config.Db)
 
 	fmt.Println("Successfully connected to the database")
 }
